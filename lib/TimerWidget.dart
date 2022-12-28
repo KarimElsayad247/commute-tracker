@@ -28,7 +28,7 @@ class _TimerWidgetState extends State<TimerWidget> {
   }
 
   void startTimer() {
-    timer = Timer.periodic(Duration(milliseconds: 1), (_) => addTime());
+    timer = Timer.periodic(Duration(milliseconds: 10), (_) => addTime());
   }
 
   void stopTimer() {
@@ -36,10 +36,10 @@ class _TimerWidgetState extends State<TimerWidget> {
   }
 
   void addTime() {
-    const secondsToAdd = 1;
+    const millisecondsToAdd = 10;
     setState(() {
-      final newSeconds = duration.inSeconds + secondsToAdd;
-      duration = Duration(seconds: newSeconds);
+      final newMilliseconds = duration.inMilliseconds + millisecondsToAdd;
+      duration = Duration(milliseconds: newMilliseconds);
     });
   }
 
@@ -47,20 +47,22 @@ class _TimerWidgetState extends State<TimerWidget> {
   Widget build(BuildContext context) {
 
     bool? timerActive = timer?.isActive;
+    timerActive ??= false;
 
-    if (!widget.active && timerActive != null && timerActive) {
+    if (!widget.active && timerActive) {
       stopTimer();
     }
-    else if (widget.active){
-      if (timerActive == null || !timerActive) {
-        startTimer();
-      }
+    else if (widget.active && !timerActive){
+      startTimer();
     }
 
     String twoDigits(int n) => n.toString().padLeft(2, '0');
+
     final hours = twoDigits(duration.inHours);
     final minutes = twoDigits(duration.inMinutes.remainder(60));
     final seconds = twoDigits(duration.inSeconds.remainder(60));
+
+    final milliseconds = twoDigits(duration.inMilliseconds.remainder(1000) ~/ 10);
 
     return Container(
       color: Styles.backgroundGray,
@@ -68,7 +70,7 @@ class _TimerWidgetState extends State<TimerWidget> {
       margin: const EdgeInsets.symmetric(vertical: 0, horizontal: 10),
       child: Center(
         child: Text(
-          '$hours : $minutes : $seconds',
+          '$hours : $minutes : $seconds : $milliseconds',
           style: Styles.gigaFont,
         ),
       ),
