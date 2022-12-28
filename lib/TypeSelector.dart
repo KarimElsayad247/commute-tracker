@@ -1,3 +1,4 @@
+import 'package:commute_tracker/NewRoute.dart';
 import 'package:flutter/material.dart';
 import 'Styles.dart';
 
@@ -52,5 +53,9 @@ class _TypeSelectorState extends State<TypeSelector> {
     );
   }
 
-  void _addNewRoute() {}
+  void _addNewRoute() {
+    Navigator.of(context).push(
+      MaterialPageRoute(builder: (context) => NewRoute())
+    );
+  }
 }
