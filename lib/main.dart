@@ -2,6 +2,7 @@ import 'package:commute_tracker/TypeSelector.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import 'Styles.dart';
 import 'TypeSelector.dart';
 import 'TimerWidget.dart';
 import 'models/CommuteRoutes.dart';
@@ -88,11 +89,9 @@ class _MyHomePageState extends State<MyHomePage> {
 
   ElevatedButton buildBigButton(
       VoidCallback callback, String text, Color backgroundColor) {
+    ButtonStyle style = Styles.veryBigButton(backgroundColor);
     return ElevatedButton(
-        style: ElevatedButton.styleFrom(
-            textStyle: const TextStyle(fontSize: 20),
-            minimumSize: const Size(300, 60),
-            primary: backgroundColor),
+        style: style,
         onPressed: callback,
         child: Text(text));
   }
