@@ -42,8 +42,6 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  TypeSelector typeSelector = TypeSelector();
-
   bool _isTracking = false;
 
   void startTracking() {
@@ -71,7 +69,7 @@ class _MyHomePageState extends State<MyHomePage> {
           mainAxisAlignment: MainAxisAlignment.start,
           children: <Widget>[
             widgetSeparator(),
-            typeSelector,
+            TypeSelector(),
             widgetSeparator(),
             TimerWidget(active: _isTracking),
             Spacer(),
