@@ -57,8 +57,7 @@ class NewCommuteRouteFormState extends State<NewCommuteRouteForm> {
                 ScaffoldMessenger.of(context).showSnackBar(
                   const SnackBar(content: Text('Processing Data')),
                 );
-                CommuteRoutes routes = context.watch<CommuteRoutes>();
-                routes.create(title: "First route", description: "my firend");
+                context.read<CommuteRoutes>().create(title: "First route", description: "my firend");
               }
             },
             child: const Text('Submit'),

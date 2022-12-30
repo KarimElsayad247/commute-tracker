@@ -43,7 +43,7 @@ class _TypeSelectorState extends State<TypeSelector> {
               ],
             ),
             DropdownButton<String>(
-                items: map2dropdown(routes.all()),
+                items: map2dropdown(context.read<CommuteRoutes>().all()),
                 onChanged: dropdownCallback,
                 value: _dropdownValue),
           ],
