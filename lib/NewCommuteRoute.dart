@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 
-class NewRoute extends StatelessWidget {
+import 'NewCommuteRouteForm.dart';
+
+class NewCommuteRoute extends StatelessWidget {
   
   @override
   Widget build(BuildContext context) {
@@ -8,6 +10,7 @@ class NewRoute extends StatelessWidget {
       appBar: AppBar(
         title: const Text("New Route"),
       ),
+      body: const NewCommuteRouteForm(),
     );
   }
 }

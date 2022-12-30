@@ -1,6 +1,9 @@
-import 'package:commute_tracker/NewRoute.dart';
+import 'package:commute_tracker/NewCommuteRoute.dart';
 import 'package:flutter/material.dart';
 import 'Styles.dart';
+import 'package:commute_tracker/models/CommuteRoute.dart';
+
+import 'models/CommuteRoutes.dart';
 
 class TypeSelector extends StatefulWidget {
   @override
@@ -38,16 +41,11 @@ class _TypeSelectorState extends State<TypeSelector> {
                   onPressed: _addNewRoute, child: const Icon(Icons.add))
             ],
           ),
-          DropdownButton(items: const [
-            DropdownMenuItem(
-              value: "1",
-              child: Text("Route 1"),
-            ),
-            DropdownMenuItem(
-              value: "2",
-              child: Text("Route 2"),
-            ),
-          ], onChanged: dropdownCallback, value: _dropdownValue),
+          DropdownButton<String>(
+              items: map2dropdown(CommuteRoutes.all()),
+              onChanged: dropdownCallback,
+              value: _dropdownValue
+          ),
         ],
       ),
     );
@@ -55,7 +53,13 @@ class _TypeSelectorState extends State<TypeSelector> {
 
   void _addNewRoute() {
     Navigator.of(context).push(
-      MaterialPageRoute(builder: (context) => NewRoute())
+        MaterialPageRoute(builder: (context) => NewCommuteRoute())
     );
   }
+}
+
+List<DropdownMenuItem<String>> map2dropdown(Map<int, CommuteRoute> map) {
+  return map.entries.map((e) {
+    return DropdownMenuItem(value: e.key.toString(), child: Text(e.value.title));
+  }).toList();
 }
