@@ -2,6 +2,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:commute_tracker/models/CommuteRoutes.dart';
+import 'package:provider/provider.dart';
 
 class NewCommuteRouteForm extends StatefulWidget {
   const NewCommuteRouteForm({super.key});
@@ -56,7 +57,8 @@ class NewCommuteRouteFormState extends State<NewCommuteRouteForm> {
                 ScaffoldMessenger.of(context).showSnackBar(
                   const SnackBar(content: Text('Processing Data')),
                 );
-                CommuteRoutes.create(title: "First route", description: "my firend");
+                CommuteRoutes routes = context.watch<CommuteRoutes>();
+                routes.create(title: "First route", description: "my firend");
               }
             },
             child: const Text('Submit'),

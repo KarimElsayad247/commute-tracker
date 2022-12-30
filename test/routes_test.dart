@@ -3,9 +3,10 @@ import 'package:flutter_test/flutter_test.dart';
 
 void main() {
   test("Creates and saves a new route with given title", () {
+    CommuteRoutes routes = CommuteRoutes();
     String requiredName = "First route";
-    CommuteRoutes.create(title: requiredName);
-    expect(CommuteRoutes.all().length, 1);
-    expect(CommuteRoutes.get(0)?.title, requiredName);
+    routes.create(title: requiredName);
+    expect(routes.all().length, 1);
+    expect(routes.get(0)?.title, requiredName);
   });
 }

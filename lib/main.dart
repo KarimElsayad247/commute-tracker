@@ -1,11 +1,16 @@
 import 'package:commute_tracker/TypeSelector.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 import 'TypeSelector.dart';
 import 'TimerWidget.dart';
+import 'models/CommuteRoutes.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp(ChangeNotifierProvider (
+    create: (context) => CommuteRoutes(),
+    child: const MyApp(),
+  ));
 }
 
 class MyApp extends StatelessWidget {

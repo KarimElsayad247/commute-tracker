@@ -1,17 +1,20 @@
+import 'package:flutter/cupertino.dart';
+
 import 'CommuteRoute.dart';
 
-class CommuteRoutes {
+class CommuteRoutes extends ChangeNotifier {
   static final _routesList = <int, CommuteRoute>{};
 
-  static create({required title, description}) {
+  create({required title, description}) {
     _routesList.addAll({_routesList.length: CommuteRoute(title: title, description: description)});
+    notifyListeners();
   }
 
-  static Map<int, CommuteRoute> all() {
+  Map<int, CommuteRoute> all() {
     return Map.unmodifiable(_routesList);
   }
 
-  static CommuteRoute? get(int id) {
+  CommuteRoute? get(int id) {
     return _routesList[id];
   }
 }
