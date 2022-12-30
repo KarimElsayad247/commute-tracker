@@ -1,8 +1,8 @@
-class Route {
+class CommuteRoute {
   String _title;
   String? _description;
 
-  Route({required title, description})
+  CommuteRoute({required title, description})
       : _title = title,
         _description = description;
 
