@@ -68,10 +68,6 @@ class _TypeSelectorState extends State<TypeSelector> {
     Navigator.of(context)
         .push(MaterialPageRoute(builder: (context) => NewCommuteRoute()));
   }
-
-// DropdownButton buildRoutesDropdown(BuildContext context) {
-//   return FutureBuilder<>()
-// }
 }
 
 List<DropdownMenuItem<String>> list2dropdown(List<CommuteRoute>? routes) {
