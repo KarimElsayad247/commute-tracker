@@ -25,6 +25,9 @@ class NewCommuteRouteFormState extends State<NewCommuteRouteForm> {
   // not a GlobalKey<MyCustomFormState>.
   final _formKey = GlobalKey<FormState>();
 
+  final titleController = TextEditingController();
+  final descriptionController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     // Build a Form widget using the _formKey created above.
@@ -35,14 +38,17 @@ class NewCommuteRouteFormState extends State<NewCommuteRouteForm> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
-            Text("Title", style: Styles.largeFont),
             TextFormField(
               // The validator receives the text that the user has entered.
               validator: notEmptyValidator,
+              controller: titleController,
+              decoration: const InputDecoration(labelText: 'Title'),
             ),
             widgetSeparator(),
-            Text("Description (Optional)", style: Styles.largeFont),
-            TextFormField(),
+            TextFormField(
+              controller: descriptionController,
+              decoration: const InputDecoration(labelText: 'Description'),
+            ),
             Spacer(),
             Center(
               child: buildSubmitButton(_formKey),
@@ -51,6 +57,13 @@ class NewCommuteRouteFormState extends State<NewCommuteRouteForm> {
         ),
       ),
     );
+  }
+
+  @override
+  void dispose() {
+    titleController.dispose();
+    descriptionController.dispose();
+    super.dispose();
   }
 
   SizedBox widgetSeparator() {
@@ -76,12 +89,12 @@ class NewCommuteRouteFormState extends State<NewCommuteRouteForm> {
         if (formKey.currentState!.validate()) {
           // If the form is valid, display a snackbar.
           ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(content: Text('Route created!')),
+            SnackBar(content: Text("Created new route!")),
           );
           // Save new route
-          context
-              .read<CommuteRoutes>()
-              .create(title: "First route", description: "my firend");
+          context.read<CommuteRoutes>().create(
+              title: titleController.text,
+              description: descriptionController.text);
         }
       },
       child: const Text('Submit'),
