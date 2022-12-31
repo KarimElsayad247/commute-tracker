@@ -1,5 +1,6 @@
 import 'package:commute_tracker/DatabaseProvider.dart';
 import 'package:commute_tracker/TypeSelector.dart';
+import 'package:commute_tracker/models/CommuteRoutesWidget.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter/widgets.dart';
@@ -97,6 +98,13 @@ class _MyHomePageState extends State<MyHomePage> {
         // Here we take the value from the MyHomePage object that was created by
         // the App.build method, and use it to set our appbar title.
         title: Text(widget.title),
+        actions: [
+          IconButton(
+            onPressed: _pushViewRoutes,
+            icon: const Icon(Icons.list),
+            tooltip: "View and edit routes",
+          )
+        ],
       ),
       body: Center(
         child: Column(
@@ -113,6 +121,11 @@ class _MyHomePageState extends State<MyHomePage> {
         ),
       ),
     );
+  }
+
+  void _pushViewRoutes() {
+    Navigator.of(context)
+        .push(MaterialPageRoute(builder: (context) => CommuteRoutesWidget()));
   }
 
   ElevatedButton buildBigButton(
