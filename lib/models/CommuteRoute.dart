@@ -1,9 +1,13 @@
 class CommuteRoute {
+  int? id;
   String _title;
   String? _description;
 
-  CommuteRoute({required title, description})
-      : _title = title,
+  CommuteRoute({
+    required title,
+    description,
+    this.id,
+  })  : _title = title,
         _description = description;
 
   String get title => _title;
@@ -20,5 +24,14 @@ class CommuteRoute {
 
   set description(String? newDesc) {
     _description = newDesc;
+  }
+
+  Map<String, dynamic> toMap() {
+    return {"id": id, "title": _title, "description": _description};
+  }
+
+  @override
+  String toString() {
+    return 'Route(id: $id, title: $title)';
   }
 }

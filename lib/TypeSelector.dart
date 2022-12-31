@@ -42,12 +42,22 @@ class _TypeSelectorState extends State<TypeSelector> {
                     onPressed: _addNewRoute, child: const Icon(Icons.add))
               ],
             ),
-            DropdownButton<String>(
-              isExpanded: true,
-                hint: const Text("Select route"),
-                items: map2dropdown(context.read<CommuteRoutes>().all()),
-                onChanged: dropdownCallback,
-                value: _dropdownValue),
+            FutureBuilder<List<CommuteRoute>>(
+              future: context.read<CommuteRoutes>().all(),
+              builder: (BuildContext context,
+                  AsyncSnapshot<List<CommuteRoute>> snapshot) {
+                List<CommuteRoute>? routes;
+                if (snapshot.hasData) {
+                  routes = snapshot.data;
+                }
+                return DropdownButton<String>(
+                    isExpanded: true,
+                    hint: const Text("Select route"),
+                    items: list2dropdown(routes),
+                    onChanged: dropdownCallback,
+                    value: _dropdownValue);
+              },
+            ),
           ],
         ),
       );
@@ -58,11 +68,20 @@ class _TypeSelectorState extends State<TypeSelector> {
     Navigator.of(context)
         .push(MaterialPageRoute(builder: (context) => NewCommuteRoute()));
   }
+
+// DropdownButton buildRoutesDropdown(BuildContext context) {
+//   return FutureBuilder<>()
+// }
 }
 
-List<DropdownMenuItem<String>> map2dropdown(Map<int, CommuteRoute> map) {
-  return map.entries.map((e) {
+List<DropdownMenuItem<String>> list2dropdown(List<CommuteRoute>? routes) {
+
+  if (routes == null) {
+    return [];
+  }
+
+  return routes.map((e) {
     return DropdownMenuItem(
-        value: e.key.toString(), child: Text(e.value.title));
+        value: e.id.toString(), child: Text(e.title));
   }).toList();
 }

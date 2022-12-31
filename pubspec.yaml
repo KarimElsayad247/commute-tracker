@@ -38,6 +38,9 @@ dependencies:
   # To manage state
   provider: ^6.0.0
 
+  sqflite:
+  path:
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
