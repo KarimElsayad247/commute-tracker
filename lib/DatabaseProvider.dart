@@ -13,7 +13,7 @@ mixin DatabaseProvider {
       onCreate: (db, version) {
         // Run the CREATE TABLE statement on the database.
         return db.execute(
-          'CREATE TABLE routes(id INTEGER PRIMARY KEY AUTO, title TEXT, description TEXT)',
+          'CREATE TABLE routes(id INTEGER PRIMARY KEY, title TEXT, description TEXT)',
         );
       },
 
