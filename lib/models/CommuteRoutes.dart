@@ -7,6 +7,9 @@ import 'package:sqflite/sqflite.dart';
 import 'CommuteRoute.dart';
 
 class CommuteRoutes extends ChangeNotifier {
+
+  static const String tableName = 'routes';
+
   create({required title, description}) async {
     CommuteRoute route = CommuteRoute(title: title, description: description);
     await insertRoute(route);
@@ -15,7 +18,7 @@ class CommuteRoutes extends ChangeNotifier {
 
   Future<List<CommuteRoute>> all() async {
     final db = await DatabaseProvider.open();
-    final List<Map<String, dynamic>> maps = await db.query('routes');
+    final List<Map<String, dynamic>> maps = await db.query(tableName);
     db.close();
     return List.generate(maps.length, (index) {
       return fromMap(maps[index]);
@@ -25,7 +28,7 @@ class CommuteRoutes extends ChangeNotifier {
   Future<CommuteRoute?> get(int id) async {
     final db = await DatabaseProvider.open();
     List<Map<String, dynamic>> maps =
-        await db.query('routes', where: 'id = ?', whereArgs: [id]);
+        await db.query(tableName, where: 'id = ?', whereArgs: [id]);
     db.close();
     if (maps.isNotEmpty) {
       return fromMap(maps.first);
@@ -34,13 +37,18 @@ class CommuteRoutes extends ChangeNotifier {
   }
 
   Future<void> insertRoute(CommuteRoute route) async {
-    String path = Path.join(await getDatabasesPath(), 'commute_tracker.db');
-    print(path);
-    final db = await openDatabase(
-        Path.join(await getDatabasesPath(), 'commute_tracker.db'));
-
-    await db.insert('routes', route.toMap(),
+    final db = await DatabaseProvider.open();
+    await db.insert(tableName, route.toMap(),
         conflictAlgorithm: ConflictAlgorithm.replace);
+    db.close();
+    notifyListeners();
+  }
+
+  Future<void> deleteRoute(int id) async {
+    final db = await DatabaseProvider.open();
+    await db.delete(tableName, where: 'id = ?', whereArgs: [id]);
+    db.close();
+    notifyListeners();
   }
 
   CommuteRoute fromMap(Map<String, dynamic> map) {
