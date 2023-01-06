@@ -9,7 +9,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'NewCommuteRoute.dart';
 import 'NewCommuteRouteForm.dart';
-import 'models/CommuteRoutes.dart';
+import '../models/CommuteRoutes.dart';
 
 class EditCommuteRoute extends ConsumerWidget {
   const EditCommuteRoute({
