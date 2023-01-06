@@ -1,13 +1,14 @@
 // Define a custom Form widget.
+import 'package:commute_tracker/main.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:commute_tracker/models/CommuteRoutes.dart';
-import 'package:provider/provider.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'Styles.dart';
 import 'models/CommuteRoute.dart';
 
-class NewCommuteRouteForm extends StatefulWidget {
+class NewCommuteRouteForm extends ConsumerStatefulWidget {
   const NewCommuteRouteForm({
     super.key,
     required this.route,
@@ -23,7 +24,7 @@ class NewCommuteRouteForm extends StatefulWidget {
 
 // Define a corresponding State class.
 // This class holds data related to the form.
-class NewCommuteRouteFormState extends State<NewCommuteRouteForm> {
+class NewCommuteRouteFormState extends ConsumerState<NewCommuteRouteForm> {
   // Create a global key that uniquely identifies the Form widget
   // and allows validation of the form.
   //
@@ -109,7 +110,7 @@ class NewCommuteRouteFormState extends State<NewCommuteRouteForm> {
             SnackBar(content: Text(message)),
           );
           // Save new route
-          CommuteRoutes commuteRoutes = context.read<CommuteRoutes>();
+          CommuteRoutes commuteRoutes = ref.read(commuteRoutesProvider.notifier);
 
           if (isNewRoute) {
             commuteRoutes.create(
