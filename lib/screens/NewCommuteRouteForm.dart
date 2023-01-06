@@ -1,11 +1,10 @@
 // Define a custom Form widget.
 import 'package:commute_tracker/main.dart';
+import 'package:commute_tracker/models/CommuteRoutes.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:commute_tracker/models/CommuteRoutes.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../utils/Styles.dart';
 import '../models/CommuteRoute.dart';
 
 class NewCommuteRouteForm extends ConsumerStatefulWidget {

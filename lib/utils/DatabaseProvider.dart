@@ -1,5 +1,5 @@
-import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart' as Path;
+import 'package:sqflite/sqflite.dart';
 
 mixin DatabaseProvider {
   static Future<Database> open() async {
