@@ -20,7 +20,7 @@ class _TimerWidgetState extends State<TimerWidget> {
 
 
 
-  Duration duration = Duration();
+  Duration duration = const Duration();
   Timer? timer;
 
   @override
@@ -29,7 +29,7 @@ class _TimerWidgetState extends State<TimerWidget> {
   }
 
   void startTimer() {
-    timer = Timer.periodic(Duration(milliseconds: 10), (_) => addTime());
+    timer = Timer.periodic(const Duration(milliseconds: 10), (_) => addTime());
   }
 
   void stopTimer() {
@@ -67,7 +67,7 @@ class _TimerWidgetState extends State<TimerWidget> {
 
     return Container(
       color: Styles.backgroundGray,
-      padding: EdgeInsets.symmetric(vertical: 20, horizontal: 0),
+      padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 0),
       margin: const EdgeInsets.symmetric(vertical: 0, horizontal: 10),
       child: Center(
         child: Text(

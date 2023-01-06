@@ -1,7 +1,6 @@
 import 'package:commute_tracker/main.dart';
 import 'package:commute_tracker/screens/EditCommuteRoute.dart';
 import 'package:commute_tracker/utils/Styles.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -11,20 +10,20 @@ import 'CommuteRoute.dart';
 class CommuteRoutesWidget extends ConsumerWidget {
   const CommuteRoutesWidget({
     Key? key,
-  });
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     void _addNewRoute() {
       Navigator.of(context)
-          .push(MaterialPageRoute(builder: (context) => NewCommuteRoute()));
+          .push(MaterialPageRoute(builder: (context) => const NewCommuteRoute()));
     }
 
     ref.watch(commuteRoutesProvider);
 
     return Scaffold(
       appBar: AppBar(
-        title: Text("Routes"),
+        title: const Text("Routes"),
       ),
       body: FutureBuilder<List<CommuteRoute>>(
         future: ref.read(commuteRoutesProvider.notifier).all(),
@@ -54,8 +53,8 @@ class CommuteRoutesWidget extends ConsumerWidget {
       ),
       floatingActionButton: FloatingActionButton(
         tooltip: "Add a new route",
-        child: const Icon(Icons.add),
         onPressed: _addNewRoute,
+        child: const Icon(Icons.add),
       ),
     );
   }

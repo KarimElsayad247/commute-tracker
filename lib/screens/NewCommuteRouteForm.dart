@@ -1,7 +1,6 @@
 // Define a custom Form widget.
 import 'package:commute_tracker/main.dart';
 import 'package:commute_tracker/models/CommuteRoutes.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -45,7 +44,7 @@ class NewCommuteRouteFormState extends ConsumerState<NewCommuteRouteForm> {
   Widget build(BuildContext context) {
     // Build a Form widget using the _formKey created above.
     return Container(
-      padding: EdgeInsets.symmetric(vertical: 30, horizontal: 10),
+      padding: const EdgeInsets.symmetric(vertical: 30, horizontal: 10),
       child: Form(
         key: _formKey,
         child: Column(
@@ -62,7 +61,7 @@ class NewCommuteRouteFormState extends ConsumerState<NewCommuteRouteForm> {
               controller: descriptionController,
               decoration: const InputDecoration(labelText: 'Description'),
             ),
-            Spacer(),
+            const Spacer(),
             Center(
               child: buildSubmitButton(_formKey, widget.route),
             )

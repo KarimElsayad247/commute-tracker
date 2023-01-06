@@ -28,8 +28,8 @@ void main() async {
   );
   bool success = await FlutterBackground.initialize(androidConfig: androidConfig);
 
-  runApp(ProviderScope(
-    child: const MyApp(),
+  runApp(const ProviderScope(
+    child: MyApp(),
   ));
 }
 

@@ -7,6 +7,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../utils/Styles.dart';
 
 class TypeSelector extends ConsumerStatefulWidget {
+  const TypeSelector({Key? key}) : super(key: key);
+
   @override
   TypeSelectorState createState() => TypeSelectorState();
 }
@@ -66,7 +68,7 @@ class TypeSelectorState extends ConsumerState<TypeSelector> {
 
   void _addNewRoute() {
     Navigator.of(context)
-        .push(MaterialPageRoute(builder: (context) => NewCommuteRoute()));
+        .push(MaterialPageRoute(builder: (context) => const NewCommuteRoute()));
   }
 }
 
