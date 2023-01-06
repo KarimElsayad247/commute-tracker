@@ -53,6 +53,7 @@ class CommuteRoutes extends ChangeNotifier {
         whereArgs: [route.id]
     );
     db.close();
+    notifyListeners();
   }
 
   Future<void> deleteRoute(int id) async {
