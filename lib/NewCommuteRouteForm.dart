@@ -5,9 +5,15 @@ import 'package:commute_tracker/models/CommuteRoutes.dart';
 import 'package:provider/provider.dart';
 
 import 'Styles.dart';
+import 'models/CommuteRoute.dart';
 
 class NewCommuteRouteForm extends StatefulWidget {
-  const NewCommuteRouteForm({super.key});
+  const NewCommuteRouteForm({
+    super.key,
+    required this.route,
+  });
+
+  final CommuteRoute route;
 
   @override
   NewCommuteRouteFormState createState() {
@@ -27,6 +33,13 @@ class NewCommuteRouteFormState extends State<NewCommuteRouteForm> {
 
   final titleController = TextEditingController();
   final descriptionController = TextEditingController();
+
+  @override
+  void initState() {
+    super.initState();
+    titleController.text = widget.route.title;
+    descriptionController.text = widget.route.description;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -51,7 +64,7 @@ class NewCommuteRouteFormState extends State<NewCommuteRouteForm> {
             ),
             Spacer(),
             Center(
-              child: buildSubmitButton(_formKey),
+              child: buildSubmitButton(_formKey, widget.route),
             )
           ],
         ),
@@ -77,7 +90,9 @@ class NewCommuteRouteFormState extends State<NewCommuteRouteForm> {
     return null;
   }
 
-  ElevatedButton buildSubmitButton(GlobalKey<FormState> formKey) {
+  ElevatedButton buildSubmitButton(
+      GlobalKey<FormState> formKey, CommuteRoute route) {
+    bool isNewRoute = widget.route.id == null;
     // ButtonStyle style = Styles.veryBigButton(Theme.of(context).primaryColor);
     return ElevatedButton(
       style: ElevatedButton.styleFrom(
@@ -87,17 +102,30 @@ class NewCommuteRouteFormState extends State<NewCommuteRouteForm> {
       onPressed: () {
         // Validate returns true if the form is valid, or false otherwise.
         if (formKey.currentState!.validate()) {
+          String message = isNewRoute ? "Created new route!" : "Updated route";
+
           // If the form is valid, display a snackbar.
           ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(content: Text("Created new route!")),
+            SnackBar(content: Text(message)),
           );
           // Save new route
-          context.read<CommuteRoutes>().create(
-              title: titleController.text,
-              description: descriptionController.text);
+          CommuteRoutes commuteRoutes = context.read<CommuteRoutes>();
+
+          if (isNewRoute) {
+            commuteRoutes.create(
+                title: titleController.text,
+                description: descriptionController.text
+            );
+          }
+          else {
+            CommuteRoute route = widget.route;
+            route.title = titleController.text;
+            route.description = descriptionController.text;
+            commuteRoutes.updateRoute(route);
+          }
         }
       },
-      child: const Text('Submit'),
+      child: Text(isNewRoute ? 'Create' : 'Update'),
     );
   }
 }
