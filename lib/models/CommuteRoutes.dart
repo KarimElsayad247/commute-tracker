@@ -28,7 +28,7 @@ class CommuteRoutes extends ChangeNotifier {
   Future<CommuteRoute?> get(int id) async {
     final db = await DatabaseProvider.open();
     List<Map<String, dynamic>> maps =
-        await db.query(tableName, where: 'id = ?', whereArgs: [id]);
+    await db.query(tableName, where: 'id = ?', whereArgs: [id]);
     db.close();
     if (maps.isNotEmpty) {
       return fromMap(maps.first);
@@ -42,6 +42,17 @@ class CommuteRoutes extends ChangeNotifier {
         conflictAlgorithm: ConflictAlgorithm.replace);
     db.close();
     notifyListeners();
+  }
+
+  Future<void> updateRoute(CommuteRoute route) async {
+    final db = await DatabaseProvider.open();
+    await db.update(
+        'routes',
+        route.toMap(),
+        where: 'id = ?',
+        whereArgs: [route.id]
+    );
+    db.close();
   }
 
   Future<void> deleteRoute(int id) async {
