@@ -43,6 +43,8 @@ dependencies:
 
   confirm_dialog: ^1.0.1
 
+  flutter_background:
+
 dev_dependencies:
   flutter_test:
     sdk: flutter

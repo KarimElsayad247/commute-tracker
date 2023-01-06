@@ -2,6 +2,7 @@ import 'package:commute_tracker/DatabaseProvider.dart';
 import 'package:commute_tracker/TypeSelector.dart';
 import 'package:commute_tracker/models/CommuteRoutesWidget.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_background/flutter_background.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter/widgets.dart';
 import 'package:path/path.dart' as Path;
@@ -19,6 +20,15 @@ void main() async {
   // Avoid errors caused by flutter upgrade.
   // Importing 'package:flutter/widgets.dart' is required.
   WidgetsFlutterBinding.ensureInitialized();
+
+  const androidConfig = FlutterBackgroundAndroidConfig(
+    notificationTitle: "Commute Tracker",
+    notificationText: "Background notification for keeping the example app running in the background",
+    notificationImportance: AndroidNotificationImportance.Default,
+    // Default is ic_launcher from folder mipmap
+    notificationIcon: AndroidResource(name: 'background_icon', defType: 'drawable'),
+  );
+  bool success = await FlutterBackground.initialize(androidConfig: androidConfig);
 
   runApp(ProviderScope(
     child: const MyApp(),
@@ -58,12 +68,14 @@ class _MyHomePageState extends State<MyHomePage> {
   bool _isTracking = false;
 
   void startTracking() {
+    FlutterBackground.enableBackgroundExecution();
     setState(() {
       _isTracking = true;
     });
   }
 
   void stopTracking() {
+    FlutterBackground.disableBackgroundExecution();
     setState(() {
       _isTracking = false;
     });
