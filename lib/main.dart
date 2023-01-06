@@ -1,4 +1,4 @@
-import 'package:commute_tracker/DatabaseProvider.dart';
+import 'package:commute_tracker/utils/DatabaseProvider.dart';
 import 'package:commute_tracker/TypeSelector.dart';
 import 'package:commute_tracker/models/CommuteRoutesWidget.dart';
 import 'package:flutter/material.dart';
@@ -23,7 +23,7 @@ void main() async {
 
   const androidConfig = FlutterBackgroundAndroidConfig(
     notificationTitle: "Commute Tracker",
-    notificationText: "Background notification for keeping the example app running in the background",
+    notificationText: "The app is currently tracking the time.",
     notificationImportance: AndroidNotificationImportance.Default,
     // Default is ic_launcher from folder mipmap
     notificationIcon: AndroidResource(name: 'background_icon', defType: 'drawable'),

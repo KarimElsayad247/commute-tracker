@@ -1,5 +1,5 @@
 import 'dart:async';
-import 'package:commute_tracker/DatabaseProvider.dart';
+import 'package:commute_tracker/utils/DatabaseProvider.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/widgets.dart';
 import 'package:path/path.dart' as Path;
