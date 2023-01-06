@@ -4,8 +4,8 @@ import 'package:commute_tracker/utils/styles.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../screens/new_commute_route.dart';
-import 'commute_route.dart';
+import 'new_commute_route.dart';
+import '../models/commute_route.dart';
 
 class CommuteRoutesWidget extends ConsumerWidget {
   const CommuteRoutesWidget({

@@ -6,7 +6,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'components/timer_widget.dart';
 import 'components/type_selector.dart';
 import 'models/commute_routes.dart';
-import 'models/commute_routes_widget.dart';
+import 'screens/commute_routes_widget.dart';
 import 'utils/styles.dart';
 
 final commuteRoutesProvider = ChangeNotifierProvider<CommuteRoutes>((ref) {
