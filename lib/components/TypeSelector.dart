@@ -2,9 +2,9 @@ import 'package:commute_tracker/screens/NewCommuteRoute.dart';
 import 'package:commute_tracker/main.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'utils/Styles.dart';
+import '../utils/Styles.dart';
 import 'package:commute_tracker/models/CommuteRoute.dart';
-import 'models/CommuteRoutes.dart';
+import '../models/CommuteRoutes.dart';
 
 class TypeSelector extends ConsumerStatefulWidget {
   @override
