@@ -1,11 +1,11 @@
 import 'dart:async';
 
-import 'package:commute_tracker/utils/DatabaseProvider.dart';
+import 'package:commute_tracker/utils/database_provider.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/widgets.dart';
 import 'package:sqflite/sqflite.dart';
 
-import 'CommuteRoute.dart';
+import 'commute_route.dart';
 
 class CommuteRoutes extends ChangeNotifier {
 

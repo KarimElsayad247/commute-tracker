@@ -1,14 +1,14 @@
-import 'package:commute_tracker/components/TypeSelector.dart';
-import 'package:commute_tracker/models/CommuteRoutesWidget.dart';
+import 'package:commute_tracker/components/type_selector.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_background/flutter_background.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import 'components/TimerWidget.dart';
-import 'components/TypeSelector.dart';
-import 'models/CommuteRoutes.dart';
-import 'utils/Styles.dart';
+import 'components/timer_widget.dart';
+import 'components/type_selector.dart';
+import 'models/commute_routes.dart';
+import 'models/commute_routes_widget.dart';
+import 'utils/styles.dart';
 
 final commuteRoutesProvider = ChangeNotifierProvider<CommuteRoutes>((ref) {
   return CommuteRoutes();

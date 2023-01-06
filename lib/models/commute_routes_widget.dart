@@ -1,11 +1,11 @@
 import 'package:commute_tracker/main.dart';
-import 'package:commute_tracker/screens/EditCommuteRoute.dart';
-import 'package:commute_tracker/utils/Styles.dart';
+import 'package:commute_tracker/screens/edit_commute_route.dart';
+import 'package:commute_tracker/utils/styles.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../screens/NewCommuteRoute.dart';
-import 'CommuteRoute.dart';
+import '../screens/new_commute_route.dart';
+import 'commute_route.dart';
 
 class CommuteRoutesWidget extends ConsumerWidget {
   const CommuteRoutesWidget({

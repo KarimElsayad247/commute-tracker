@@ -1,10 +1,10 @@
 import 'package:commute_tracker/main.dart';
-import 'package:commute_tracker/models/CommuteRoute.dart';
+import 'package:commute_tracker/models/commute_route.dart';
 import 'package:confirm_dialog/confirm_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import 'NewCommuteRouteForm.dart';
+import 'new_commute_route_form.dart';
 
 class EditCommuteRoute extends ConsumerWidget {
   const EditCommuteRoute({

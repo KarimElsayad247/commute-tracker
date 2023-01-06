@@ -1,4 +1,4 @@
-import 'package:commute_tracker/models/CommuteRoutes.dart';
+import 'package:commute_tracker/models/commute_routes.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {
