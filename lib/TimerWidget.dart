@@ -1,7 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'Styles.dart';
+import 'utils/Styles.dart';
 
 class TimerWidget extends StatefulWidget {
   const TimerWidget({

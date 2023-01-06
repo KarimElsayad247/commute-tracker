@@ -1,5 +1,5 @@
 import 'package:commute_tracker/EditCommuteRoute.dart';
-import 'package:commute_tracker/Styles.dart';
+import 'package:commute_tracker/utils/Styles.dart';
 import 'package:commute_tracker/main.dart';
 import 'package:confirm_dialog/confirm_dialog.dart';
 import 'package:flutter/cupertino.dart';

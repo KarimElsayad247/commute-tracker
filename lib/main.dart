@@ -7,7 +7,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter/widgets.dart';
 import 'package:path/path.dart' as Path;
 import 'package:sqflite/sqflite.dart';
-import 'Styles.dart';
+import 'utils/Styles.dart';
 import 'TypeSelector.dart';
 import 'TimerWidget.dart';
 import 'models/CommuteRoutes.dart';
