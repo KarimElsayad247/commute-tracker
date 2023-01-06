@@ -1,6 +1,5 @@
 import 'package:commute_tracker/components/type_selector.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_background/flutter_background.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -99,10 +98,10 @@ class _MyHomePageState extends State<MyHomePage> {
           mainAxisAlignment: MainAxisAlignment.start,
           children: <Widget>[
             widgetSeparator(),
-            TypeSelector(),
+            const TypeSelector(),
             widgetSeparator(),
             TimerWidget(active: _isTracking),
-            Spacer(),
+            const Spacer(),
             _isTracking ? buildStopButton() : buildStartButton(),
             widgetSeparator(),
           ],
@@ -113,7 +112,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
   void _pushViewRoutes() {
     Navigator.of(context)
-        .push(MaterialPageRoute(builder: (context) => CommuteRoutesWidget()));
+        .push(MaterialPageRoute(builder: (context) => const CommuteRoutesWidget()));
   }
 
   ElevatedButton buildBigButton(
