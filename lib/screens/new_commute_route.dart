@@ -1,4 +1,4 @@
-import 'package:commute_tracker/models/commute_route.dart';
+import '../models/models.dart';
 import 'package:flutter/material.dart';
 
 import '_new_commute_route_form.dart';
@@ -9,12 +9,12 @@ class NewCommuteRoute extends StatelessWidget {
   
   @override
   Widget build(BuildContext context) {
-    CommuteRoute newRoute = CommuteRoute(title: '');
+
     return Scaffold(
       appBar: AppBar(
         title: const Text("New Route"),
       ),
-      body: NewCommuteRouteForm(route: newRoute),
+      body: const NewCommuteRouteForm(),
     );
   }
 }

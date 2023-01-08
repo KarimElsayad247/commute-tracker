@@ -1,18 +1,23 @@
 // Define a custom Form widget.
 import 'package:commute_tracker/main.dart';
-import 'package:commute_tracker/models/commute_routes.dart';
+import 'package:commute_tracker/controllers/commute_routes_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../models/commute_route.dart';
+import '../models/models.dart';
+
 
 class NewCommuteRouteForm extends ConsumerStatefulWidget {
   const NewCommuteRouteForm({
     super.key,
-    required this.route,
+    this.id,
+    this.title = '',
+    this.description = '',
   });
 
-  final CommuteRoute route;
+  final int? id;
+  final String title;
+  final String description;
 
   @override
   NewCommuteRouteFormState createState() {
@@ -36,8 +41,8 @@ class NewCommuteRouteFormState extends ConsumerState<NewCommuteRouteForm> {
   @override
   void initState() {
     super.initState();
-    titleController.text = widget.route.title;
-    descriptionController.text = widget.route.description;
+    titleController.text = widget.title;
+    descriptionController.text = widget.description;
   }
 
   @override
@@ -63,7 +68,7 @@ class NewCommuteRouteFormState extends ConsumerState<NewCommuteRouteForm> {
             ),
             const Spacer(),
             Center(
-              child: buildSubmitButton(_formKey, widget.route),
+              child: buildSubmitButton(_formKey),
             )
           ],
         ),
@@ -90,8 +95,8 @@ class NewCommuteRouteFormState extends ConsumerState<NewCommuteRouteForm> {
   }
 
   ElevatedButton buildSubmitButton(
-      GlobalKey<FormState> formKey, CommuteRoute route) {
-    bool isNewRoute = widget.route.id == null;
+      GlobalKey<FormState> formKey) {
+    bool isNewRoute = widget.id == null;
     // ButtonStyle style = Styles.veryBigButton(Theme.of(context).primaryColor);
     return ElevatedButton(
       style: ElevatedButton.styleFrom(
@@ -108,19 +113,21 @@ class NewCommuteRouteFormState extends ConsumerState<NewCommuteRouteForm> {
             SnackBar(content: Text(message)),
           );
           // Save new route
-          CommuteRoutes commuteRoutes = ref.read(commuteRoutesProvider.notifier);
+          CommuteRoutesController commuteRoutes = ref.read(commuteRoutesProvider.notifier);
 
           if (isNewRoute) {
             commuteRoutes.create(
                 title: titleController.text,
                 description: descriptionController.text
             );
+            Navigator.pop(context);
           }
           else {
-            CommuteRoute route = widget.route;
-            route.title = titleController.text;
-            route.description = descriptionController.text;
-            commuteRoutes.updateRoute(route);
+            commuteRoutes.updateRoute(
+              widget.id!, // a route is not new -> id is not null
+              titleController.text,
+              descriptionController.text
+            );
           }
         }
       },

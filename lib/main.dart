@@ -1,22 +1,28 @@
 import 'package:commute_tracker/components/type_selector.dart';
+import 'package:commute_tracker/models/models.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_background/flutter_background.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:get_it/get_it.dart';
 
 import 'components/timer_widget.dart';
 import 'components/type_selector.dart';
-import 'models/commute_routes.dart';
+import 'controllers/commute_routes_controller.dart';
 import 'screens/commute_routes_widget.dart';
 import 'utils/styles.dart';
 
-final commuteRoutesProvider = ChangeNotifierProvider<CommuteRoutes>((ref) {
-  return CommuteRoutes();
+final commuteRoutesProvider = ChangeNotifierProvider<CommuteRoutesController>((ref) {
+  return CommuteRoutesController();
 });
+
+final getIt = GetIt.instance;
 
 void main() async {
   // Avoid errors caused by flutter upgrade.
   // Importing 'package:flutter/widgets.dart' is required.
   WidgetsFlutterBinding.ensureInitialized();
+
+  getIt.registerSingleton<Database>(Database());
 
   const androidConfig = FlutterBackgroundAndroidConfig(
     notificationTitle: "Commute Tracker",

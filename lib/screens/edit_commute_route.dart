@@ -1,5 +1,6 @@
 import 'package:commute_tracker/main.dart';
-import 'package:commute_tracker/models/commute_route.dart';
+import '../models/models.dart';
+
 import 'package:confirm_dialog/confirm_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -25,7 +26,11 @@ class EditCommuteRoute extends ConsumerWidget {
         title: const Text("Edit Route"),
         actions: [buildDeleteIconButton(context, ref, route)],
       ),
-      body: NewCommuteRouteForm(route: route),
+      body: NewCommuteRouteForm(
+        id: route.id,
+        title: route.title,
+        description: route.description,
+      ),
     );
   }
 
