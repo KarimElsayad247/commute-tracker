@@ -43,6 +43,8 @@ dependencies:
 
   confirm_dialog: ^1.0.1
 
+  # Library for keeping application running in the background,
+  # to keep track of passed time.
   flutter_background:
 
 dev_dependencies:
