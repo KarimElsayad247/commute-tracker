@@ -70,6 +70,8 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   bool _isTracking = false;
 
+  Duration duration = const Duration();
+
   void startTracking() {
     FlutterBackground.enableBackgroundExecution();
     setState(() {
@@ -79,8 +81,15 @@ class _MyHomePageState extends State<MyHomePage> {
 
   void stopTracking() {
     FlutterBackground.disableBackgroundExecution();
+    print(duration.inSeconds);
     setState(() {
       _isTracking = false;
+    });
+  }
+
+  void setDuration(Duration newDuration) {
+    setState(() {
+      duration = newDuration;
     });
   }
 
@@ -106,7 +115,11 @@ class _MyHomePageState extends State<MyHomePage> {
             widgetSeparator(),
             const TypeSelector(),
             widgetSeparator(),
-            TimerWidget(active: _isTracking),
+            TimerWidget(
+              active: _isTracking,
+              duration: duration,
+              setDuration: setDuration,
+            ),
             const Spacer(),
             _isTracking ? buildStopButton() : buildStartButton(),
             widgetSeparator(),

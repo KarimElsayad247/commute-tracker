@@ -8,9 +8,13 @@ class TimerWidget extends StatefulWidget {
   const TimerWidget({
     Key? key,
     this.active = false,
+    required this.duration,
+    required this.setDuration,
   }) : super(key: key);
 
   final bool active;
+  final Duration duration;
+  final Function(Duration) setDuration;
 
   @override
   State<TimerWidget> createState() => _TimerWidgetState();
@@ -18,9 +22,6 @@ class TimerWidget extends StatefulWidget {
 
 class _TimerWidgetState extends State<TimerWidget> {
 
-
-
-  Duration duration = const Duration();
   Timer? timer;
 
   @override
@@ -38,10 +39,8 @@ class _TimerWidgetState extends State<TimerWidget> {
 
   void addTime() {
     const millisecondsToAdd = 10;
-    setState(() {
-      final newMilliseconds = duration.inMilliseconds + millisecondsToAdd;
-      duration = Duration(milliseconds: newMilliseconds);
-    });
+    final newMilliseconds = widget.duration.inMilliseconds + millisecondsToAdd;
+    widget.setDuration(Duration(milliseconds: newMilliseconds));
   }
 
   @override
@@ -59,6 +58,7 @@ class _TimerWidgetState extends State<TimerWidget> {
 
     String twoDigits(int n) => n.toString().padLeft(2, '0');
 
+    final duration = widget.duration;
     final hours = twoDigits(duration.inHours);
     final minutes = twoDigits(duration.inMinutes.remainder(60));
     final seconds = twoDigits(duration.inSeconds.remainder(60));
