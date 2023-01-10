@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:commute_tracker/components/type_selector.dart';
 import 'package:commute_tracker/models/models.dart';
 import 'package:flutter/material.dart';
@@ -5,7 +7,6 @@ import 'package:flutter_background/flutter_background.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:get_it/get_it.dart';
 
-import 'components/timer_widget.dart';
 import 'components/type_selector.dart';
 import 'controllers/commute_routes_controller.dart';
 import 'screens/commute_routes_widget.dart';
@@ -69,12 +70,32 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   bool _isTracking = false;
-
+  Timer? timer;
   Duration duration = const Duration();
+
+  @override
+  void initState() {
+    super.initState();
+  }
+
+  void startTimer() {
+    timer = Timer.periodic(const Duration(milliseconds: 10), (_) => addTime());
+  }
+
+  void stopTimer() {
+    timer?.cancel();
+  }
+
+  void addTime() {
+    const millisecondsToAdd = 10;
+    final newMilliseconds = duration.inMilliseconds + millisecondsToAdd;
+    setDuration(Duration(milliseconds: newMilliseconds));
+  }
 
   void startTracking() {
     FlutterBackground.enableBackgroundExecution();
     setState(() {
+      timer = Timer.periodic(const Duration(milliseconds: 10), (_) => addTime());
       _isTracking = true;
     });
   }
@@ -82,6 +103,7 @@ class _MyHomePageState extends State<MyHomePage> {
   void stopTracking() {
     FlutterBackground.disableBackgroundExecution();
     print(duration.inSeconds);
+    timer?.cancel();
     setState(() {
       _isTracking = false;
     });
@@ -115,11 +137,7 @@ class _MyHomePageState extends State<MyHomePage> {
             widgetSeparator(),
             const TypeSelector(),
             widgetSeparator(),
-            TimerWidget(
-              active: _isTracking,
-              duration: duration,
-              setDuration: setDuration,
-            ),
+            buildTimerBox(),
             const Spacer(),
             _isTracking ? buildStopButton() : buildStartButton(),
             widgetSeparator(),
@@ -132,6 +150,28 @@ class _MyHomePageState extends State<MyHomePage> {
   void _pushViewRoutes() {
     Navigator.of(context)
         .push(MaterialPageRoute(builder: (context) => const CommuteRoutesWidget()));
+  }
+
+  Widget buildTimerBox() {
+    String twoDigits(int n) => n.toString().padLeft(2, '0');
+
+    final hours = twoDigits(duration.inHours);
+    final minutes = twoDigits(duration.inMinutes.remainder(60));
+    final seconds = twoDigits(duration.inSeconds.remainder(60));
+
+    final milliseconds = twoDigits(duration.inMilliseconds.remainder(1000) ~/ 10);
+
+    return Container(
+      color: Styles.backgroundGray,
+      padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 0),
+      margin: const EdgeInsets.symmetric(vertical: 0, horizontal: 10),
+      child: Center(
+        child: Text(
+          '$hours : $minutes : $seconds : $milliseconds',
+          style: Styles.gigaFont,
+        ),
+      ),
+    );
   }
 
   ElevatedButton buildBigButton(
