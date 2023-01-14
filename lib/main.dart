@@ -12,7 +12,8 @@ import 'controllers/commute_routes_controller.dart';
 import 'screens/commute_routes_widget.dart';
 import 'utils/styles.dart';
 
-final commuteRoutesProvider = ChangeNotifierProvider<CommuteRoutesController>((ref) {
+final commuteRoutesProvider =
+    ChangeNotifierProvider<CommuteRoutesController>((ref) {
   return CommuteRoutesController();
 });
 
@@ -30,9 +31,11 @@ void main() async {
     notificationText: "The app is currently tracking the time.",
     notificationImportance: AndroidNotificationImportance.Default,
     // Default is ic_launcher from folder mipmap
-    notificationIcon: AndroidResource(name: 'background_icon', defType: 'drawable'),
+    notificationIcon:
+        AndroidResource(name: 'background_icon', defType: 'drawable'),
   );
-  bool success = await FlutterBackground.initialize(androidConfig: androidConfig);
+  bool success =
+      await FlutterBackground.initialize(androidConfig: androidConfig);
 
   runApp(const ProviderScope(
     child: MyApp(),
@@ -71,48 +74,66 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   bool _isTracking = false;
   Timer? timer;
-  Duration duration = const Duration();
+  int? startingClock;
+  int? currentClock;
+  List<int> checkpoints = <int>[0];
 
   @override
   void initState() {
     super.initState();
   }
 
-  void startTimer() {
-    timer = Timer.periodic(const Duration(milliseconds: 10), (_) => addTime());
-  }
-
-  void stopTimer() {
-    timer?.cancel();
-  }
-
   void addTime() {
-    const millisecondsToAdd = 10;
-    final newMilliseconds = duration.inMilliseconds + millisecondsToAdd;
-    setDuration(Duration(milliseconds: newMilliseconds));
+    setState(() {
+      currentClock = DateTime.now().millisecondsSinceEpoch;
+    });
   }
 
   void startTracking() {
     FlutterBackground.enableBackgroundExecution();
     setState(() {
-      timer = Timer.periodic(const Duration(milliseconds: 10), (_) => addTime());
+      timer =
+          Timer.periodic(const Duration(milliseconds: 10), (_) => addTime());
+      startingClock = DateTime.now().millisecondsSinceEpoch;
+      currentClock = startingClock;
       _isTracking = true;
     });
   }
 
+  void pauseTimer() {
+    timer?.cancel();
+    startingClock = 0;
+    currentClock = 0;
+    _isTracking = false;
+  }
+
   void stopTracking() {
     FlutterBackground.disableBackgroundExecution();
-    print(duration.inSeconds);
-    timer?.cancel();
     setState(() {
-      _isTracking = false;
+      checkpoints.add(currentClock! - startingClock!);
+      pauseTimer();
     });
   }
 
-  void setDuration(Duration newDuration) {
+  void resetTime() {
     setState(() {
-      duration = newDuration;
+      pauseTimer();
+      checkpoints = [0];
     });
+  }
+
+  Duration _clockToDuration(int? startingClock, int? endingClock) {
+    if (startingClock == null || endingClock == null) {
+      return Duration.zero;
+    }
+
+    int elapsedClocksSinceLastCheckpoint = endingClock - startingClock;
+    int previousCheckpointsSum =
+        checkpoints.reduce((value, element) => value + element);
+    int totalDurationMillis =
+        elapsedClocksSinceLastCheckpoint + previousCheckpointsSum;
+    return Duration(milliseconds: totalDurationMillis);
+
   }
 
   @override
@@ -139,6 +160,7 @@ class _MyHomePageState extends State<MyHomePage> {
             widgetSeparator(),
             buildTimerBox(),
             const Spacer(),
+            buildResetButton(),
             _isTracking ? buildStopButton() : buildStartButton(),
             widgetSeparator(),
           ],
@@ -148,18 +170,21 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   void _pushViewRoutes() {
-    Navigator.of(context)
-        .push(MaterialPageRoute(builder: (context) => const CommuteRoutesWidget()));
+    Navigator.of(context).push(
+        MaterialPageRoute(builder: (context) => const CommuteRoutesWidget()));
   }
 
   Widget buildTimerBox() {
+    Duration duration = _clockToDuration(startingClock, currentClock);
+
     String twoDigits(int n) => n.toString().padLeft(2, '0');
 
     final hours = twoDigits(duration.inHours);
     final minutes = twoDigits(duration.inMinutes.remainder(60));
     final seconds = twoDigits(duration.inSeconds.remainder(60));
 
-    final milliseconds = twoDigits(duration.inMilliseconds.remainder(1000) ~/ 10);
+    final milliseconds =
+        twoDigits(duration.inMilliseconds.remainder(1000) ~/ 10);
 
     return Container(
       color: Styles.backgroundGray,
@@ -187,6 +212,10 @@ class _MyHomePageState extends State<MyHomePage> {
 
   ElevatedButton buildStopButton() {
     return buildBigButton(stopTracking, "Stop Tracking", Colors.red);
+  }
+
+  ElevatedButton buildResetButton() {
+    return buildBigButton(resetTime, "Reset", Colors.orangeAccent);
   }
 
   SizedBox widgetSeparator() {
