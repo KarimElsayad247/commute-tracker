@@ -31,8 +31,8 @@ class Database extends _$MyDatabase {
 
 LazyDatabase _openConnection() {
   return LazyDatabase(() async {
-    final dbFolder = await getApplicationDocumentsDirectory();
-    final file = File(p.join(dbFolder.path, 'db.sqlite'));
+    const dbFolder = "/data/data/com.sayad.commute_tracker/databases";
+    final file = File(p.join(dbFolder, 'db.sqlite'));
     return NativeDatabase.createInBackground(file);
   });
 }
