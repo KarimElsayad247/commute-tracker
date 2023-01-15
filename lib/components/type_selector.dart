@@ -8,7 +8,10 @@ import '../models/models.dart';
 import '../utils/styles.dart';
 
 class TypeSelector extends ConsumerStatefulWidget {
-  const TypeSelector({Key? key}) : super(key: key);
+  const TypeSelector({Key? key, required this.onRouteChange})
+      : super(key: key);
+
+  final Function(int) onRouteChange;
 
   @override
   TypeSelectorState createState() => TypeSelectorState();
@@ -19,6 +22,7 @@ class TypeSelectorState extends ConsumerState<TypeSelector> {
 
   void dropdownCallback(String? selectedValue) {
     if (selectedValue is String) {
+      widget.onRouteChange(int.parse(selectedValue));
       setState(() {
         _dropdownValue = selectedValue;
       });

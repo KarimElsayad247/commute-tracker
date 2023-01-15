@@ -77,6 +77,7 @@ class _MyHomePageState extends State<MyHomePage> {
   int? startingClock;
   int? currentClock;
   List<int> checkpoints = <int>[0];
+  int? selectedRouteId;
 
   @override
   void initState() {
@@ -90,6 +91,12 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   void startTracking() {
+
+    if (selectedRouteId == null) {
+      _showMyDialog();
+      return;
+    }
+
     FlutterBackground.enableBackgroundExecution();
     setState(() {
       timer =
@@ -119,6 +126,12 @@ class _MyHomePageState extends State<MyHomePage> {
     setState(() {
       pauseTimer();
       checkpoints = [0];
+    });
+  }
+
+  void assignRoute(int routeId) {
+    setState(() {
+      selectedRouteId = routeId;
     });
   }
 
@@ -156,7 +169,7 @@ class _MyHomePageState extends State<MyHomePage> {
           mainAxisAlignment: MainAxisAlignment.start,
           children: <Widget>[
             widgetSeparator(),
-            const TypeSelector(),
+            TypeSelector(onRouteChange: assignRoute),
             widgetSeparator(),
             buildTimerBox(),
             const Spacer(),
@@ -220,5 +233,32 @@ class _MyHomePageState extends State<MyHomePage> {
 
   SizedBox widgetSeparator() {
     return const SizedBox(height: 10);
+  }
+
+  Future<void> _showMyDialog() async {
+    return showDialog<void>(
+      context: context,
+      barrierDismissible: false, // user must tap button!
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text('You must select a route!'),
+          content: SingleChildScrollView(
+            child: ListBody(
+              children: const <Widget>[
+                Text("You can't start tracking without selecting a route."),
+              ],
+            ),
+          ),
+          actions: <Widget>[
+            TextButton(
+              child: const Text('Ok'),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
   }
 }
