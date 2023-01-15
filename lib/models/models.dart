@@ -21,12 +21,32 @@ class CommuteRecords extends Table {
   IntColumn get route => integer()();
 }
 
-@DriftDatabase(tables: [CommuteRoutes, CommuteRecords])
-class Database extends _$MyDatabase {
+class RouteSegments extends Table {
+  IntColumn get id => integer().autoIncrement()();
+  TextColumn get description => text().withLength(min: 1)();
+  IntColumn get route => integer()();
+}
+
+@DriftDatabase(tables: [CommuteRoutes, CommuteRecords, RouteSegments])
+class Database extends _$Database {
   Database() : super(_openConnection());
 
   @override
-  int get schemaVersion => 1;
+  int get schemaVersion => 3;
+
+  @override
+  MigrationStrategy get migration {
+    return MigrationStrategy(
+      onCreate: (Migrator m) async {
+        await m.createAll();
+      },
+      onUpgrade: (Migrator m, int from, int to) async {
+        if (from < 2) {
+          await m.createTable(routeSegments);
+        }
+      }
+    );
+  }
 }
 
 LazyDatabase _openConnection() {

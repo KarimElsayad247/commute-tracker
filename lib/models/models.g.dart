@@ -387,14 +387,228 @@ class $CommuteRecordsTable extends CommuteRecords
   }
 }
 
-abstract class _$MyDatabase extends GeneratedDatabase {
-  _$MyDatabase(QueryExecutor e) : super(e);
+class RouteSegment extends DataClass implements Insertable<RouteSegment> {
+  final int id;
+  final String description;
+  final int route;
+  const RouteSegment(
+      {required this.id, required this.description, required this.route});
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    map['id'] = Variable<int>(id);
+    map['description'] = Variable<String>(description);
+    map['route'] = Variable<int>(route);
+    return map;
+  }
+
+  RouteSegmentsCompanion toCompanion(bool nullToAbsent) {
+    return RouteSegmentsCompanion(
+      id: Value(id),
+      description: Value(description),
+      route: Value(route),
+    );
+  }
+
+  factory RouteSegment.fromJson(Map<String, dynamic> json,
+      {ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return RouteSegment(
+      id: serializer.fromJson<int>(json['id']),
+      description: serializer.fromJson<String>(json['description']),
+      route: serializer.fromJson<int>(json['route']),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return <String, dynamic>{
+      'id': serializer.toJson<int>(id),
+      'description': serializer.toJson<String>(description),
+      'route': serializer.toJson<int>(route),
+    };
+  }
+
+  RouteSegment copyWith({int? id, String? description, int? route}) =>
+      RouteSegment(
+        id: id ?? this.id,
+        description: description ?? this.description,
+        route: route ?? this.route,
+      );
+  @override
+  String toString() {
+    return (StringBuffer('RouteSegment(')
+          ..write('id: $id, ')
+          ..write('description: $description, ')
+          ..write('route: $route')
+          ..write(')'))
+        .toString();
+  }
+
+  @override
+  int get hashCode => Object.hash(id, description, route);
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      (other is RouteSegment &&
+          other.id == this.id &&
+          other.description == this.description &&
+          other.route == this.route);
+}
+
+class RouteSegmentsCompanion extends UpdateCompanion<RouteSegment> {
+  final Value<int> id;
+  final Value<String> description;
+  final Value<int> route;
+  const RouteSegmentsCompanion({
+    this.id = const Value.absent(),
+    this.description = const Value.absent(),
+    this.route = const Value.absent(),
+  });
+  RouteSegmentsCompanion.insert({
+    this.id = const Value.absent(),
+    required String description,
+    required int route,
+  })  : description = Value(description),
+        route = Value(route);
+  static Insertable<RouteSegment> custom({
+    Expression<int>? id,
+    Expression<String>? description,
+    Expression<int>? route,
+  }) {
+    return RawValuesInsertable({
+      if (id != null) 'id': id,
+      if (description != null) 'description': description,
+      if (route != null) 'route': route,
+    });
+  }
+
+  RouteSegmentsCompanion copyWith(
+      {Value<int>? id, Value<String>? description, Value<int>? route}) {
+    return RouteSegmentsCompanion(
+      id: id ?? this.id,
+      description: description ?? this.description,
+      route: route ?? this.route,
+    );
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (id.present) {
+      map['id'] = Variable<int>(id.value);
+    }
+    if (description.present) {
+      map['description'] = Variable<String>(description.value);
+    }
+    if (route.present) {
+      map['route'] = Variable<int>(route.value);
+    }
+    return map;
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('RouteSegmentsCompanion(')
+          ..write('id: $id, ')
+          ..write('description: $description, ')
+          ..write('route: $route')
+          ..write(')'))
+        .toString();
+  }
+}
+
+class $RouteSegmentsTable extends RouteSegments
+    with TableInfo<$RouteSegmentsTable, RouteSegment> {
+  @override
+  final GeneratedDatabase attachedDatabase;
+  final String? _alias;
+  $RouteSegmentsTable(this.attachedDatabase, [this._alias]);
+  static const VerificationMeta _idMeta = const VerificationMeta('id');
+  @override
+  late final GeneratedColumn<int> id = GeneratedColumn<int>(
+      'id', aliasedName, false,
+      hasAutoIncrement: true,
+      type: DriftSqlType.int,
+      requiredDuringInsert: false,
+      defaultConstraints:
+          GeneratedColumn.constraintIsAlways('PRIMARY KEY AUTOINCREMENT'));
+  static const VerificationMeta _descriptionMeta =
+      const VerificationMeta('description');
+  @override
+  late final GeneratedColumn<String> description =
+      GeneratedColumn<String>('description', aliasedName, false,
+          additionalChecks: GeneratedColumn.checkTextLength(
+            minTextLength: 1,
+          ),
+          type: DriftSqlType.string,
+          requiredDuringInsert: true);
+  static const VerificationMeta _routeMeta = const VerificationMeta('route');
+  @override
+  late final GeneratedColumn<int> route = GeneratedColumn<int>(
+      'route', aliasedName, false,
+      type: DriftSqlType.int, requiredDuringInsert: true);
+  @override
+  List<GeneratedColumn> get $columns => [id, description, route];
+  @override
+  String get aliasedName => _alias ?? 'route_segments';
+  @override
+  String get actualTableName => 'route_segments';
+  @override
+  VerificationContext validateIntegrity(Insertable<RouteSegment> instance,
+      {bool isInserting = false}) {
+    final context = VerificationContext();
+    final data = instance.toColumns(true);
+    if (data.containsKey('id')) {
+      context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
+    }
+    if (data.containsKey('description')) {
+      context.handle(
+          _descriptionMeta,
+          description.isAcceptableOrUnknown(
+              data['description']!, _descriptionMeta));
+    } else if (isInserting) {
+      context.missing(_descriptionMeta);
+    }
+    if (data.containsKey('route')) {
+      context.handle(
+          _routeMeta, route.isAcceptableOrUnknown(data['route']!, _routeMeta));
+    } else if (isInserting) {
+      context.missing(_routeMeta);
+    }
+    return context;
+  }
+
+  @override
+  Set<GeneratedColumn> get $primaryKey => {id};
+  @override
+  RouteSegment map(Map<String, dynamic> data, {String? tablePrefix}) {
+    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
+    return RouteSegment(
+      id: attachedDatabase.typeMapping
+          .read(DriftSqlType.int, data['${effectivePrefix}id'])!,
+      description: attachedDatabase.typeMapping
+          .read(DriftSqlType.string, data['${effectivePrefix}description'])!,
+      route: attachedDatabase.typeMapping
+          .read(DriftSqlType.int, data['${effectivePrefix}route'])!,
+    );
+  }
+
+  @override
+  $RouteSegmentsTable createAlias(String alias) {
+    return $RouteSegmentsTable(attachedDatabase, alias);
+  }
+}
+
+abstract class _$Database extends GeneratedDatabase {
+  _$Database(QueryExecutor e) : super(e);
   late final $CommuteRoutesTable commuteRoutes = $CommuteRoutesTable(this);
   late final $CommuteRecordsTable commuteRecords = $CommuteRecordsTable(this);
+  late final $RouteSegmentsTable routeSegments = $RouteSegmentsTable(this);
   @override
   Iterable<TableInfo<Table, Object?>> get allTables =>
       allSchemaEntities.whereType<TableInfo<Table, Object?>>();
   @override
   List<DatabaseSchemaEntity> get allSchemaEntities =>
-      [commuteRoutes, commuteRecords];
+      [commuteRoutes, commuteRecords, routeSegments];
 }
