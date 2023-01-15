@@ -11,7 +11,7 @@ import '../models/models.dart';
 class CommuteRoutesController extends BaseController {
   static const String tableName = 'routes';
 
-  create({required title, description}) async {
+  Future<void> create({required title, description}) async {
     CommuteRoutesCompanion route = CommuteRoutesCompanion(
         title: Value(title), description: Value(description));
     db.into(db.commuteRoutes).insert(route);
@@ -39,6 +39,15 @@ class CommuteRoutesController extends BaseController {
     final deleteQuery = db.delete(db.commuteRoutes)
       ..where((route) => route.id.equals(id));
     deleteQuery.go();
+    notifyListeners();
+  }
+
+  Future<void> addSegmentToRoute(routeId, segmentDescription) async {
+    RouteSegmentsCompanion segment = RouteSegmentsCompanion(
+      description: Value(segmentDescription),
+      route: Value(routeId),
+    );
+    db.into(db.routeSegments).insert(segment);
     notifyListeners();
   }
 

@@ -32,7 +32,7 @@ class Database extends _$Database {
   Database() : super(_openConnection());
 
   @override
-  int get schemaVersion => 3;
+  int get schemaVersion => 5;
 
   @override
   MigrationStrategy get migration {
@@ -41,7 +41,7 @@ class Database extends _$Database {
         await m.createAll();
       },
       onUpgrade: (Migrator m, int from, int to) async {
-        if (from < 2) {
+        if (from < 5) {
           await m.createTable(routeSegments);
         }
       }
