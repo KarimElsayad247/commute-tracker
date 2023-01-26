@@ -11,4 +11,17 @@ abstract class BaseController<T extends d.Table, D> extends ChangeNotifier {
   Future<List<D>> all() async {
     return db.select(table).get();
   }
+
+  Future<D?> get(int id) async {
+    final query = db.select(table)
+      ..where((item) => (item as dynamic).id.equals(id));
+    return query.getSingle();
+  }
+
+  Future<void> deleteItem(int id) async {
+    final deleteQuery = db.delete(table)
+      ..where((item) => (item as dynamic).id.equals(id));
+    deleteQuery.go();
+    notifyListeners();
+  }
 }

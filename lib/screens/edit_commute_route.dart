@@ -34,7 +34,8 @@ class EditCommuteRoute extends ConsumerWidget {
     );
   }
 
-  IconButton buildDeleteIconButton(BuildContext context, WidgetRef ref, CommuteRoute route) {
+  IconButton buildDeleteIconButton(
+      BuildContext context, WidgetRef ref, CommuteRoute route) {
     return IconButton(
       icon: const Icon(Icons.delete),
       tooltip: "Delete this route",
@@ -55,7 +56,7 @@ class EditCommuteRoute extends ConsumerWidget {
       throw ArgumentError(
           "It should be impossible for route id to be null here");
     }
-    ref.read(commuteRoutesProvider.notifier).deleteRoute(routeId);
+    ref.read(commuteRoutesProvider.notifier).deleteItem(routeId);
     Navigator.pop(context);
   }
 }
