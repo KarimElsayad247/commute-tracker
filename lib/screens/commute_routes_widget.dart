@@ -1,4 +1,5 @@
 import 'package:commute_tracker/main.dart';
+import 'package:commute_tracker/screens/commute_routes/commute_route_screen.dart';
 import 'package:commute_tracker/screens/edit_commute_route.dart';
 import 'package:commute_tracker/utils/styles.dart';
 import 'package:flutter/material.dart';
@@ -41,6 +42,7 @@ class CommuteRoutesWidget extends ConsumerWidget {
                 style: Styles.largeFont,
               ),
               trailing: buildEditIconButton(context, route),
+              onTap: () => navigateToRouteScreen(context, route),
             );
           });
           final divided = tiles.isNotEmpty
@@ -67,5 +69,10 @@ class CommuteRoutesWidget extends ConsumerWidget {
             builder: (context) => EditCommuteRoute(route: route)));
       },
     );
+  }
+
+  void navigateToRouteScreen(BuildContext context, CommuteRoute route) {
+    Navigator.of(context).push(MaterialPageRoute(
+        builder: (context) => CommuteRouteScreen(route: route)));
   }
 }

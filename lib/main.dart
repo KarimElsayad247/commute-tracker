@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:commute_tracker/components/type_selector.dart';
+import 'package:commute_tracker/controllers/route_segments_controller.dart';
 import 'package:commute_tracker/models/models.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_background/flutter_background.dart';
@@ -15,6 +16,11 @@ import 'utils/styles.dart';
 final commuteRoutesProvider =
     ChangeNotifierProvider<CommuteRoutesController>((ref) {
   return CommuteRoutesController();
+});
+
+final routeSegmentsProvider =
+    ChangeNotifierProvider<RouteSegmentsController>((ref) {
+  return RouteSegmentsController();
 });
 
 final getIt = GetIt.instance;
@@ -91,7 +97,6 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   void startTracking() {
-
     if (selectedRouteId == null) {
       _showMyDialog();
       return;
@@ -146,7 +151,6 @@ class _MyHomePageState extends State<MyHomePage> {
     int totalDurationMillis =
         elapsedClocksSinceLastCheckpoint + previousCheckpointsSum;
     return Duration(milliseconds: totalDurationMillis);
-
   }
 
   @override
