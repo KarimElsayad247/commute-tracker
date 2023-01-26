@@ -17,6 +17,12 @@ class CommuteRoutesController
     notifyListeners();
   }
 
+  Future<CommuteRoute?> get(int id) async {
+    final query = db.select(db.commuteRoutes)
+      ..where((route) => route.id.equals(id));
+    return query.getSingle();
+  }
+
   Future<void> updateRoute(int id, String title, String description) async {
     CommuteRoute route =
         CommuteRoute(id: id, title: title, description: description);
