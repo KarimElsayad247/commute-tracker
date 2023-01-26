@@ -7,7 +7,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'new_commute_route.dart';
 import '../models/models.dart';
 
-
 class CommuteRoutesWidget extends ConsumerWidget {
   const CommuteRoutesWidget({
     Key? key,
@@ -16,8 +15,8 @@ class CommuteRoutesWidget extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     void _addNewRoute() {
-      Navigator.of(context)
-          .push(MaterialPageRoute(builder: (context) => const NewCommuteRoute()));
+      Navigator.of(context).push(
+          MaterialPageRoute(builder: (context) => const NewCommuteRoute()));
     }
 
     ref.watch(commuteRoutesProvider);
