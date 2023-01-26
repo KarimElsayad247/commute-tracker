@@ -32,4 +32,10 @@ class CommuteRoutesController
     db.into(db.routeSegments).insert(segment);
     notifyListeners();
   }
+
+  Future<List<RouteSegment>> segmentsForRoute(routeId) {
+    final query = db.select(db.routeSegments)
+      ..where((segment) => segment.id.equals(routeId));
+    return query.get();
+  }
 }
